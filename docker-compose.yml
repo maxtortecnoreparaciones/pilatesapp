@@ -1,0 +1,23 @@
+
+
+services:
+  backend:
+    build: ./backend_django
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend_django:/app
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.5
+    environment:
+      - POSTGRES_DB=pilates_db
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+
+# Aquí puedes añadir los otros servicios como el bot y el frontend más adelante
