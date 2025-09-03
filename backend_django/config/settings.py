@@ -31,7 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'pilates',
+    'usuarios',
+    'sedes',
+    'clases',
+    'notificaciones',
+    'pagos',
+    'progresos',
+    'accesos',
+    'referidos',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -124,3 +131,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AUTH_USER_MODEL - Configuración de tu modelo de usuario
+AUTH_USER_MODEL = 'usuarios.Usuario'
+
+# REST_FRAMEWORK - Configuración de la API REST
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', # Reemplaza a la que tenias
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
