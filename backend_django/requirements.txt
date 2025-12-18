@@ -1,3 +1,6 @@
 Django
 psycopg2-binary
 djangorestframework
+django-phonenumber-field[phonenumbers]
+python-dotenv
+djangorestframework-simplejwt

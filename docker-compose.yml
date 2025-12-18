@@ -1,5 +1,3 @@
-
-
 services:
   backend:
     build: ./backend_django
@@ -9,15 +7,18 @@ services:
       - ./backend_django:/app
     command: python manage.py runserver 0.0.0.0:8000
     depends_on:
-      - db
+      db:
+        condition: service_started # Usaremos 'service_started' por ahora para simplificar.
 
   db:
     image: postgres:14.5
+    # --- ¡datos db
     environment:
-      - POSTGRES_DB=pilates_db
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=axiom_pilates_db
+      - POSTGRES_USER=django_user
+      - POSTGRES_PASSWORD=PilatesB4ck3nd2025
     ports:
       - "5432:5432"
+
 
 # Aquí puedes añadir los otros servicios como el bot y el frontend más adelante
