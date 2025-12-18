@@ -10,10 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Cargar variables de entorno desde .env
+load_dotenv(BASE_DIR.parent / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -21,11 +26,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-p5!7)o5h3&gszy*xf*x#@w)oz5feh=62r8pb8zuu-mw=3x!wro'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-p5!7)o5h3&gszy*xf*x#@w)oz5feh=62r8pb8zuu-mw=3x!wro')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 
 # Application definition
@@ -34,11 +42,13 @@ INSTALLED_APPS = [
     'usuarios',
     'sedes',
     'clases',
+    'empresas',
     'notificaciones',
     'pagos',
     'progresos',
     'accesos',
     'referidos',
+    'estudios',  # ← CRÍTICO: Asegura que la app estudios esté registrada
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -85,8 +95,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'axiom_pilates_db',
+        'USER': 'django_user',
+        'PASSWORD': 'PilatesB4ck3nd2025',
+        'HOST': 'db',  # 👈 CAMBIAMOS "db" POR "localhost"
+        'PORT': '5432',
     }
 }
 
