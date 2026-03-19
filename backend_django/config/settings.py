@@ -87,18 +87,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database - Railway PostgreSQL
-# Railway proporciona DATABASE_URL automáticamente
+import dj_database_url
+
+# Railway proporciona DATABASE_URL automáticamente si PostgreSQL está conectado
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 if DATABASE_URL:
-    # Parsear DATABASE_URL de Railway
-    # formato: postgresql://user:password@host:port/dbname
-    import dj_database_url
+    # Usar DATABASE_URL de Railway
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
     }
-else:
-    # Fallback para desarrollo local
+elif os.getenv('POSTGRES_HOST'):
+    # Desarrollo local o configuración manual
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -107,6 +107,14 @@ else:
             'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'PilatesB4ck3nd2025'),
             'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
             'PORT': os.getenv('POSTGRES_PORT', '5432'),
+        }
+    }
+else:
+    # Fallback final - SQLite para desarrollo local sin PostgreSQL
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
