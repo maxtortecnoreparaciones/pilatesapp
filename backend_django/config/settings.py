@@ -9,8 +9,13 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Cargar variables de entorno desde .env
-load_dotenv(BASE_DIR.parent / '.env')
+# Cargar variables de entorno desde .env (buscar en varios lugares)
+env_path = BASE_DIR / '.env'
+if not env_path.exists():
+    env_path = BASE_DIR.parent / '.env'
+if not env_path.exists():
+    env_path = Path('.env')
+load_dotenv(env_path)
 
 
 # Quick-start development settings - unsuitable for production
