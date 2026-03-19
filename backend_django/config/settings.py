@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'accesos',
     'referidos',
     'estudios',
-    'festivos',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
