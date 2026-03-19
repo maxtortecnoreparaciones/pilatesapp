@@ -3,22 +3,29 @@ services:
     build: ./backend_django
     ports:
       - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
     volumes:
       - ./backend_django:/app
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     depends_on:
       db:
-        condition: service_started # Usaremos 'service_started' por ahora para simplificar.
+        condition: service_started
 
   db:
     image: postgres:14.5
-    # --- ¡datos db
     environment:
-      - POSTGRES_DB=axiom_pilates_db
+      - POSTGRES_DB=pilates_db
       - POSTGRES_USER=django_user
       - POSTGRES_PASSWORD=PilatesB4ck3nd2025
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-
-# Aquí puedes añadir los otros servicios como el bot y el frontend más adelante
+volumes:
+  postgres_data:
