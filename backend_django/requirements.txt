@@ -1,6 +1,12 @@
-Django
+Django>=4.2,<5.3
 psycopg2-binary
 djangorestframework
 django-phonenumber-field[phonenumbers]
 python-dotenv
 djangorestframework-simplejwt
+dj-database-url>=2.0.0
+gunicorn>=21.0.0
+google-api-python-client>=2.100.0
+google-auth-httplib2>=0.2.0
+google-auth-oauthlib>=1.2.0
+whitenoise>=6.6.0
