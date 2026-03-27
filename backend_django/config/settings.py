@@ -87,12 +87,16 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database - Railway PostgreSQL
-import dj_database_url
+try:
+    import dj_database_url
+    HAS_DJ_DATABASE_URL = True
+except ImportError:
+    HAS_DJ_DATABASE_URL = False
 
 # Railway proporciona DATABASE_URL automáticamente si PostgreSQL está conectado
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-if DATABASE_URL:
+if DATABASE_URL and HAS_DJ_DATABASE_URL:
     # Usar DATABASE_URL de Railway
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
