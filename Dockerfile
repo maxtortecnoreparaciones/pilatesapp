@@ -22,4 +22,5 @@ ENV DJANGO_SETTINGS_MODULE=config.settings
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "echo 'Limpiando migraciones antiguas...' && python -c \"import django; django.setup(); from django.db import connection; cursor = connection.cursor(); cursor.execute('DELETE FROM django_migrations WHERE app IN (\\\"usuarios\\\", \\\"estudios\\\", \\\"sedes\\\", \\\"clases\\\", \\\"pagos\\\", \\\"empresas\\\", \\\"notificaciones\\\", \\\"progresos\\\", \\\"accesos\\\", \\\"referidos\\\")'); connection.commit(); print('Migraciones limpiadas')\" && python manage.py makemigrations && python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT"]
+# Limpiar TODAS las migraciones de la tabla django_migrations
+CMD ["sh", "-c", "python -c \"import django; django.setup(); from django.db import connection; cursor = connection.cursor(); cursor.execute('DELETE FROM django_migrations'); connection.commit(); print('Todas las migraciones limpiadas')\" && python manage.py makemigrations && python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT"]
